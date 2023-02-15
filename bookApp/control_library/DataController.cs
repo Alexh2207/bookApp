@@ -51,6 +51,9 @@ namespace control_library
             AllBooks = new CollectionBooks();
             AllAuthors = new CollectionAuthors();
             Wishlist = new CollectionBooks();
+
+            addBook("1234", "Fernando", "Pescador", "Hola", "Terror");
+            addBook("123345", "Fernando", "Pescador", "Adios", "Comedia");
         }
         
         /// <summary>
@@ -323,6 +326,11 @@ namespace control_library
             Book target = AllBooks.find(isbn);
             target.Shelves.Remove(bookhelfID);
             return AllBookshelves.find(bookhelfID).remove(isbn);
+        }
+
+        public Task<CollectionBooks> GetBooksAsync()
+        {
+            return Task.FromResult(AllBooks);
         }
     }
 }

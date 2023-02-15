@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace control_library.collections
 {
-    internal class CollectionBooks
+    public class CollectionBooks
     {
         public List<Book> Books { get; set; }
 

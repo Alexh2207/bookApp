@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace control_library.collections
 {
 #pragma warning disable CS0659 // El tipo reemplaza a Object.Equals(object o), pero no reemplaza a Object.GetHashCode()
-    internal class CollectionBookshelves
+    public class CollectionBookshelves
 #pragma warning restore CS0659 // El tipo reemplaza a Object.Equals(object o), pero no reemplaza a Object.GetHashCode()
     {
         public List<Bookshelf> Bookshelves { get; set; }
