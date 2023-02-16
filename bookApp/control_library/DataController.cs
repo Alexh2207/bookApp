@@ -27,12 +27,12 @@ namespace control_library
         /// <summary>
         /// All Books present in the app
         /// </summary>
-        CollectionBooks AllBooks { get; set; }
+        Bookshelf AllBooks { get; set; }
 
         /// <summary>
         /// List of books in the wishlist
         /// </summary>
-        CollectionBooks Wishlist { get; set; }
+        Bookshelf Wishlist { get; set; }
 
         /// <summary>
         /// All Authors present in the app
@@ -48,12 +48,22 @@ namespace control_library
 
             TopLayerBookshelves = new CollectionBookshelves();
             AllBookshelves = new CollectionBookshelves();
-            AllBooks = new CollectionBooks();
+            AllBooks = new Bookshelf();
             AllAuthors = new CollectionAuthors();
-            Wishlist = new CollectionBooks();
+            Wishlist = new Bookshelf();
 
             addBook("1234", "Fernando", "Pescador", "Hola", "Terror");
             addBook("123345", "Fernando", "Pescador", "Adios", "Comedia");
+
+            Bookshelf books = new Bookshelf("All Books", "All the books stored in the app", AllBooks.Books.ToArray());
+
+            AllBookshelves.add(books);
+            TopLayerBookshelves.add(books);
+
+            Bookshelf wish = new Bookshelf("Wishlist", "The books you want to read", Wishlist.Books.ToArray());
+
+            AllBookshelves.add(wish);
+            TopLayerBookshelves.add(wish);
         }
         
         /// <summary>
@@ -328,9 +338,14 @@ namespace control_library
             return AllBookshelves.find(bookhelfID).remove(isbn);
         }
 
-        public Task<CollectionBooks> GetBooksAsync()
+        public Task<Bookshelf> GetBooksAsync()
         {
             return Task.FromResult(AllBooks);
+        }
+
+        public Task<CollectionBookshelves> GetTShelfAsync()
+        {
+            return Task.FromResult(TopLayerBookshelves);
         }
     }
 }

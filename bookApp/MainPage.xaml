@@ -4,25 +4,29 @@
              x:Class="bookApp.MainPage">
 
     <StackLayout Margin="20,35,20,20">
-        <Entry x:Name="nameEntry"
+        <!--<Entry x:Name="nameEntry"
                Placeholder="Enter name" />
         <Entry x:Name="ageEntry"
                Placeholder="Enter age" />
         <Button Text="Add to Database"
-                Clicked="OnButtonClicked" />
-        <CollectionView x:Name="collectionView">
-            <CollectionView.ItemTemplate>
+                Clicked="OnButtonClicked" />-->
+        <ListView x:Name="collectionView" ItemTapped="BookshelfSelected" HasUnevenRows="False" RowHeight="60">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout>
-                        <Label Text="{Binding Title}"
-                               FontSize="Medium" />
-                        <Label Text="{Binding Genre}"
-                               TextColor="Silver"
-                               FontSize="Small" />
-                    </StackLayout>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Spacing="3" Padding="6" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding ShelfName}"
+                                       FontSize="Medium" />
+                                <Label Text="{Binding Concept}"
+                                       TextColor="Silver"
+                                       FontSize="Small" />
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>

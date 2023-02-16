@@ -32,6 +32,10 @@ namespace control_library.data
         public Bookshelf(string name, string concept, Book[] books1)
             : base(books1)
         {
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(String.Concat(name, concept));
+            int total = 0;
+            Array.ForEach(asciiBytes, delegate (byte i) { total += i; });
+            BookshelfID = total + DateTime.Now.Millisecond;
             ShelfName = name;
             Concept = concept;
             Shelves = new CollectionBookshelves();
@@ -45,10 +49,11 @@ namespace control_library.data
             Shelves = new CollectionBookshelves();
         }
 
+        //LIMPIAR ESTO, MAL CÓDIGO
+
         public bool addBook(Book book)
         {
-            Books.Add(book);
-            return true;
+            return add(book);
         }
 
         public bool addShelf(Bookshelf bookshelf)

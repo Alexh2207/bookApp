@@ -1,4 +1,6 @@
-﻿using control_library.collections;
+﻿using bookApp.Views;
+using control_library.collections;
+using control_library.data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,8 +21,8 @@ namespace bookApp
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            CollectionBooks bookList = await App.Controller.GetBooksAsync();
-            collectionView.ItemsSource = bookList.Books;
+            CollectionBookshelves TShelves = await App.Controller.GetTShelfAsync();
+            collectionView.ItemsSource = TShelves.Bookshelves;
         }
 
         int count = 0;
@@ -28,6 +30,15 @@ namespace bookApp
         {
             count++;
             ((Button)sender).Text = $"You clicked {count} times.";
+        }
+
+        async void BookshelfSelected(object sender, System.EventArgs e)
+        {
+            bool boolean = await DisplayAlert(((Bookshelf)((ListView)sender).SelectedItem).BookshelfID.ToString(), ((Bookshelf)((ListView)sender).SelectedItem).ShelfName, "Yes", "No");
+            if(boolean)
+            {
+                await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
+            }
         }
     }
 }
