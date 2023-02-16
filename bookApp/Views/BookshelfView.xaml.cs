@@ -26,7 +26,7 @@ namespace bookApp.Views
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await Navigation.PushAsync(new BookDetailView((Book)((ListView)sender).SelectedItem));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

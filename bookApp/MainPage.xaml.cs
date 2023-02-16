@@ -23,22 +23,21 @@ namespace bookApp
             base.OnAppearing();
             CollectionBookshelves TShelves = await App.Controller.GetTShelfAsync();
             collectionView.ItemsSource = TShelves.Bookshelves;
+            
         }
 
         int count = 0;
-        void OnButtonClicked(object sender, System.EventArgs e)
+        async void OnButtonClicked(object sender, System.EventArgs e)
         {
-            count++;
-            ((Button)sender).Text = $"You clicked {count} times.";
+            await Navigation.PushAsync(new BookDetailView(new Book()));
         }
 
         async void BookshelfSelected(object sender, System.EventArgs e)
         {
-            bool boolean = await DisplayAlert(((Bookshelf)((ListView)sender).SelectedItem).BookshelfID.ToString(), ((Bookshelf)((ListView)sender).SelectedItem).ShelfName, "Yes", "No");
-            if(boolean)
-            {
-                await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
-            }
+            
+            await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
+            collectionView.SelectedItem = null;
+            
         }
     }
 }

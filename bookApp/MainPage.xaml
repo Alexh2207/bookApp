@@ -4,12 +4,12 @@
              x:Class="bookApp.MainPage">
 
     <StackLayout Margin="20,35,20,20">
-        <!--<Entry x:Name="nameEntry"
+        <Entry x:Name="nameEntry"
                Placeholder="Enter name" />
         <Entry x:Name="ageEntry"
                Placeholder="Enter age" />
         <Button Text="Add to Database"
-                Clicked="OnButtonClicked" />-->
+                Clicked="OnButtonClicked" />
         <ListView x:Name="collectionView" ItemTapped="BookshelfSelected" HasUnevenRows="False" RowHeight="60">
             <ListView.ItemTemplate>
                 <DataTemplate>

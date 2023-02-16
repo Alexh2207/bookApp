@@ -55,5 +55,10 @@ namespace control_library.data
                    EqualityComparer<CollectionBooks>.Default.Equals(PubBooks, author.PubBooks);
         }
 
+        public override string ToString()
+        {
+            return Name + Surname;
+        }
+
     }
 }

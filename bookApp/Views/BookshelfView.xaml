@@ -4,7 +4,7 @@
              x:Class="bookApp.Views.BookshelfView">
   <ListView x:Name="MyListView"
             ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
+            CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
     <!--Built in Cells-->
     <!--ListView.ItemTemplate>
         <DataTemplate>
@@ -16,11 +16,13 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+
+                        <Image Source="Bookdefault.jpg"/>
+
                         <Label Text="{Binding Title}" 
-                   Style="{DynamicResource ListItemTextStyle}" />
-                        <Label Text="{Binding Genre}" 
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+                   Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />
+                        
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
