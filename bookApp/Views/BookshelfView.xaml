@@ -28,4 +28,11 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Book"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="OnAddClicked"/>
+    </ContentPage.ToolbarItems>
 </ContentPage>

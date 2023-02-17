@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="bookApp.Views.CreateBookView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="ISBN" Placeholder="ISBN of the book" />
+            <Entry x:Name="BookTitle" Placeholder="Title of the book" />
+            <Entry x:Name="AuthorName" Placeholder="Name of the author of the book" />
+            <Entry x:Name="AuthorSurname" Placeholder="Surame of the author of the book" />
+            <Entry x:Name="Genre" Placeholder="Genre of the book" />
+            <Button x:Name="AddBook" Text="Add Book" Clicked="OnAddNewBook"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

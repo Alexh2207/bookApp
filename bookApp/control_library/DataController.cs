@@ -17,27 +17,27 @@ namespace control_library
         /// <summary>
         /// Bookshelves located in the top layer of the app
         /// </summary>
-        CollectionBookshelves TopLayerBookshelves { get; set; }
+        public CollectionBookshelves TopLayerBookshelves { get; set; }
 
         /// <summary>
         /// Every bookoshelf present in the app
         /// </summary>
-        CollectionBookshelves AllBookshelves { get; set; }
+        public CollectionBookshelves AllBookshelves { get; set; }
 
         /// <summary>
         /// All Books present in the app
         /// </summary>
-        Bookshelf AllBooks { get; set; }
+        public Bookshelf AllBooks { get; set; }
 
         /// <summary>
         /// List of books in the wishlist
         /// </summary>
-        Bookshelf Wishlist { get; set; }
+        public Bookshelf Wishlist { get; set; }
 
         /// <summary>
         /// All Authors present in the app
         /// </summary>
-        CollectionAuthors AllAuthors { get; set; }
+        public CollectionAuthors AllAuthors { get; set; }
 
         /// <summary>
         /// Initializes the Data Controller
