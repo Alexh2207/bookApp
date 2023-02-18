@@ -14,7 +14,8 @@ namespace bookApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BookshelfView : ContentPage
     {
-        public ObservableCollection<Book> Items { get; set; }
+        public ObservableCollection<Book> BookItems { get; set; }
+        public ObservableCollection<Bookshelf> ShelfItems { get; set; }
 
         public Bookshelf Bookshelf1 { get; set; }
 
@@ -28,9 +29,10 @@ namespace bookApp.Views
         {
             base.OnAppearing();
             Bookshelf Shelf = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID);
-            Items = new ObservableCollection<Book>(Shelf.Books);
-            MyListView.ItemsSource =  Items;
-
+            BookItems = new ObservableCollection<Book>(Shelf.Books);
+            BookList.ItemsSource =  BookItems;
+            ShelfItems = new ObservableCollection<Bookshelf>(App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Shelves.Bookshelves);
+            BookshelvesList.ItemsSource = ShelfItems;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -51,13 +53,22 @@ namespace bookApp.Views
 
             //Items.Add(App.Controller.AllBooks.find("12344567"));
 
-            Navigation.PushAsync(new CreateBookView(this));
+            Navigation.PushAsync(new CreateBookshelfView(this));
 
             /*            MyListView.ItemsSource = null;  // This works, but it's DIRTY
                         MyListView.ItemsSource = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Books;*/
 
 
 
+        }
+
+        async void Handle_ShelfTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+
+            await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
+            ((ListView)sender).SelectedItem = null;
         }
     }
 }

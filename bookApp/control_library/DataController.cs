@@ -64,6 +64,8 @@ namespace control_library
 
             AllBookshelves.add(wish);
             TopLayerBookshelves.add(wish);
+
+            createSubBookshelf("Prueba", "Estantería de prueba", books.BookshelfID);
         }
         
         /// <summary>
@@ -72,11 +74,18 @@ namespace control_library
         /// <param name="name"> Name of the Bookshelf</param>
         /// <param name="concept"> Concept of the Bookshelf</param>
         /// <returns>True if successful, False if failure</returns>
-        public bool createTopBookshelf(string name, string concept)
+        public double createTopBookshelf(string name, string concept)
         {
             Bookshelf bookshelf = new Bookshelf(name, concept);
             Console.WriteLine(bookshelf.BookshelfID);
-            return TopLayerBookshelves.add(bookshelf) && AllBookshelves.add(bookshelf);
+            if( TopLayerBookshelves.add(bookshelf) && AllBookshelves.add(bookshelf))
+            {
+                return bookshelf.BookshelfID;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         /// <summary>
@@ -86,7 +95,7 @@ namespace control_library
         /// <param name="concept">Concept of the Bookshelf</param>
         /// <param name="bookshelfID">ID of the Parent of the Bookshelf</param>
         /// <returns>True if successful, False if failure</returns>
-        public bool createSubBookshelf(string name, string concept, double bookshelfID)
+        public double createSubBookshelf(string name, string concept, double bookshelfID)
         {
             Bookshelf bookshelf = new Bookshelf(name, concept);
 #pragma warning disable CS0168 // La variable está declarada pero nunca se usa
@@ -96,22 +105,31 @@ namespace control_library
                 {
                     if (element.ShelfName.Equals(name))
                     {
-                        Console.WriteLine("nombre ya existente");
-                        return false;
+                        Console.WriteLine("nombre ya existente en la estantería padre");
+                        return -1;
                     }
                 }
 
                 if (!AllBookshelves.find(bookshelfID).addShelf(bookshelf))
                 {
-                    return false;
+                    return -1;
+                }
+
+                if (AllBookshelves.add(bookshelf))
+                {
+                    return bookshelf.BookshelfID;
+                }
+                else
+                {
+                    return -1;
                 }
             }
             catch(BookshelfNotFoundException e)
             {
-                return false;
+                return -1;
             }
 #pragma warning restore CS0168 // La variable está declarada pero nunca se usa
-            return AllBookshelves.add(bookshelf);
+            
         }
 
         /// <summary>

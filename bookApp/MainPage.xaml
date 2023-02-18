@@ -29,5 +29,12 @@
         </ListView>
     </StackLayout>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Bookshelf"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="OnAddClicked"/>
+    </ContentPage.ToolbarItems>
+
 </ContentPage>
 

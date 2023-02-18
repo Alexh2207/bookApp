@@ -27,7 +27,7 @@ namespace bookApp.Views
         {
             App.Controller.addBook(ISBN.Text,AuthorName.Text,AuthorSurname.Text, BookTitle.Text,Genre.Text);
             App.Controller.addBookToBookshelf(ISBN.Text, bookshelf.Bookshelf1.BookshelfID);
-            bookshelf.Items.Add(App.Controller.AllBooks.find(ISBN.Text));
+            bookshelf.BookItems.Add(App.Controller.AllBooks.find(ISBN.Text));
         }
     }
 }

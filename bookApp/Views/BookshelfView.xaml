@@ -2,35 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bookApp.Views.BookshelfView">
-  <ListView x:Name="MyListView"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
-    <!--Built in Cells-->
-    <!--ListView.ItemTemplate>
-        <DataTemplate>
-            <TextCell Text="{Binding .}" />
-        </DataTemplate>
-    </ListView.ItemTemplate-->
-    
-    <!--Custom View Cells-->
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
+    <StackLayout Orientation="Vertical">
+        <Label Text="Bookshelves:" FontAttributes="Bold"/>
+        <ListView x:Name="BookshelvesList"
+                ItemTapped="Handle_ShelfTapped"
+                CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
 
-                        <Image Source="Bookdefault.jpg"/>
+                            <Image Source="Bookdefault.jpg"/>
 
-                        <Label Text="{Binding Title}" 
-                   Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />
-                        
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                            <Label Text="{Binding ShelfName}" 
+                       Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />
 
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label Text="Books:" FontAttributes="Bold"/>
+        
+        <ListView x:Name="BookList"
+                ItemTapped="Handle_ItemTapped"
+                CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="Bookdefault.jpg"/>
+
+                            <Label Text="{Binding Title}" 
+                       Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />
+
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add Book"
+        <ToolbarItem Text="Add Bookshelf"
                  Order="Primary"
                  Priority="0"
                  Clicked="OnAddClicked"/>

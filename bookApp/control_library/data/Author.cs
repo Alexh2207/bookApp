@@ -57,7 +57,7 @@ namespace control_library.data
 
         public override string ToString()
         {
-            return Name + Surname;
+            return Name + " " + Surname;
         }
 
     }
