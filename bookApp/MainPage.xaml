@@ -1,32 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="bookApp.MainPage">
+             x:Class="bookApp.MainPage"
+             xmlns:local="clr-namespace:bookApp">
 
     <StackLayout Margin="20,35,20,20">
-        <Entry x:Name="nameEntry"
-               Placeholder="Enter name" />
-        <Entry x:Name="ageEntry"
-               Placeholder="Enter age" />
-        <Button Text="Add to Database"
-                Clicked="OnButtonClicked" />
+        <SearchBar Placeholder="Search Books..."
+           HorizontalTextAlignment="Start"
+           FontSize="Medium"
+           FontAttributes="Italic" 
+           TextChanged="OnTextChanged"/>
+
         <ListView x:Name="collectionView" ItemTapped="BookshelfSelected" HasUnevenRows="False" RowHeight="60">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
                             <StackLayout Spacing="3" Padding="6" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                                <Label Text="{Binding ShelfName}"
-                                       FontSize="Medium" />
-                                <Label Text="{Binding Concept}"
-                                       TextColor="Silver"
-                                       FontSize="Small" />
+                                <StackLayout Spacing="3" Padding="6" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding ShelfName}"
+                                           FontSize="Medium" />
+                                    <Label Text="{Binding Concept}"
+                                           TextColor="Silver"
+                                           FontSize="Small" />
+                                </StackLayout>
+                                <ImageButton Source="trash.jpg"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="CenterAndExpand" 
+                                                 Clicked="OnDeleteClicked"/>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
     </StackLayout>
 
     <ContentPage.ToolbarItems>

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace bookApp
@@ -58,6 +59,17 @@ namespace bookApp
 
 
 
+        }
+
+        async void OnTextChanged(object sender, EventArgs e)
+        {
+            //GET search results
+        }
+
+        async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            //GET search results
+            await Navigation.PushAsync(new DeletePage());
         }
     }
 }
