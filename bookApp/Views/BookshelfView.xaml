@@ -3,7 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bookApp.Views.BookshelfView">
     <StackLayout Orientation="Vertical">
-        <Label Text="Bookshelves:" FontAttributes="Bold"/>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Text="Bookshelves:" FontAttributes="Bold"/>
+            <ImageButton Source="trash.jpg" Clicked="OnDeleteShelfClicked" Grid.Column="3" BackgroundColor="White" HorizontalOptions="End"/>
+        </Grid>
         <ListView x:Name="BookshelvesList"
                 ItemTapped="Handle_ShelfTapped"
                 CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
@@ -23,8 +36,20 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Label Text="Books:" FontAttributes="Bold"/>
         
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Text="Books:" FontAttributes="Bold"/>
+            <ImageButton Source="trash.jpg" Clicked="OnDeleteBookClicked" Grid.Column="3" BackgroundColor="White" HorizontalOptions="End"/>
+        </Grid>
         <ListView x:Name="BookList"
                 ItemTapped="Handle_ItemTapped"
                 CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">

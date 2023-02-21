@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="bookApp.Views.DeleteBookPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="DeleteList"
+                CachingStrategy="RecycleElement" HasUnevenRows="False" RowHeight="60">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+
+                                <Image Source="Bookdefault.jpg"/>
+
+                                <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />
+
+                                <CheckBox CheckedChanged="OnCheckedChanged" BindingContext="{Binding Isbn}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="OnRemoveClicked"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>

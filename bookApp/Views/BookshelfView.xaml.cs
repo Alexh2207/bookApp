@@ -70,5 +70,19 @@ namespace bookApp.Views
             await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
             ((ListView)sender).SelectedItem = null;
         }
+
+        void OnDeleteBookClicked(object sender, EventArgs e)
+        {
+
+            Navigation.PushAsync(new DeleteBookPage(this));
+
+        }
+
+        void OnDeleteShelfClicked(object sender, EventArgs e)
+        {
+
+            Navigation.PushAsync(new DeleteShelfPage(this));
+
+        }
     }
 }

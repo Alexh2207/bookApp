@@ -19,6 +19,9 @@
     <Compile Update="Views\BookshelfView.xaml.cs">
       <DependentUpon>BookshelfView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\DeleteBookPage.xaml.cs">
+      <DependentUpon>DeleteBookPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +37,10 @@
     <EmbeddedResource Update="Views\CreateBookView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DeletePage.xaml">
+    <EmbeddedResource Update="Views\DeleteBookPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DeleteShelfPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

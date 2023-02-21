@@ -69,7 +69,7 @@ namespace bookApp
         async void OnDeleteClicked(object sender, EventArgs e)
         {
             //GET search results
-            await Navigation.PushAsync(new DeletePage());
+            //await Navigation.PushAsync(new DeleteBookPage(new BookshelfView(ShelfItems[0])));
         }
     }
 }
