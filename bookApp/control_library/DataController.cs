@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using control_library.collections;
 using control_library.data;
+using control_library.data_retrieval;
 
 namespace control_library
 {
@@ -51,9 +52,18 @@ namespace control_library
             AllBooks = new Bookshelf();
             AllAuthors = new CollectionAuthors();
             Wishlist = new Bookshelf();
+            List <string> author1 = new List<string>();
+            author1.Add("Fernando Pescador");
+            
+            List <string> genres = new List<string>();
+            genres.Add("Terror");
 
-            addBook("1234", "Fernando", "Pescador", "Hola", "Terror");
-            addBook("123345", "Fernando", "Pescador", "Adios", "Comedia");
+            addBook("1234", author1, "Hola", genres);
+
+            author1= new List<string>();
+            author1.Add("Martinez Campos");
+            genres.Add("Comedia");
+            addBook("123345", author1, "Adios", genres);
 
             Bookshelf books = new Bookshelf("All Books", "All the books stored in the app", AllBooks.Books.ToArray());
 
@@ -66,6 +76,9 @@ namespace control_library
             TopLayerBookshelves.add(wish);
 
             createSubBookshelf("Prueba", "Estantería de prueba", books.BookshelfID);
+
+
+
         }
         
         /// <summary>
@@ -141,25 +154,25 @@ namespace control_library
         /// <param name="title">Title of the book</param>
         /// <param name="genre">Genre of the book</param>
         /// <returns>True if successful, False if failure</returns>
-        public bool addBook(string isbn, string authorName, string authorSurname, string title, string genre)
+        public bool addBook(string isbn, List<string> authorName, string title, List<string> genre)
         {
-            Author author = new Author(authorName, authorSurname);
-            Book newBook;
+            CollectionAuthors author = new CollectionAuthors();
+            foreach(string element in authorName)
+            {
+                author.add(new Author(element));
+            }
+            Book newBook = new Book(isbn, author, title, genre);
             //AÑADIR LIBRO A PUBLICADOS DEL AUTOR
             //Search for author
             try
 #pragma warning disable CS0168 // La variable está declarada pero nunca se usa
             {
-                if (AllAuthors.add(author))
+                foreach (Author element in author.Authors)
                 {
-                    newBook = new Book(isbn, author, title, genre);
-                    AllAuthors.find(author.AuthorID).addBook(newBook);
+                    AllAuthors.add(element);
+                    AllAuthors.find(element.AuthorID).addBook(newBook);
+                    
                 }
-                else
-                {
-                    newBook = new Book(isbn, AllAuthors.find(author.AuthorID), title, genre);
-                    AllAuthors.find(author.AuthorID).addBook(newBook);
-                } 
             }catch(AuthorNotFoundException e)
             {
                 return false;
@@ -301,7 +314,7 @@ namespace control_library
         /// <param name="newAuthorName">New author name of the book</param>
         /// <param name="newAuthorSurname">New author surname of the book</param>
         /// <returns>True if successful, False if failure</returns>
-        public bool editBook(string isbn, string newtitle, string newGenre, string newIsbn, string newAuthorName, string newAuthorSurname)
+        public bool editBook(string isbn, string newtitle, List<string> newGenre, string newIsbn, Author newAuthorName, Author oldAuthorName)
         {
             Book targetB = new Book();
             try
@@ -319,15 +332,15 @@ namespace control_library
                     targetB.Title = newtitle;
                 }
 
-                if (newAuthorName != null)
+                if (newAuthorName != null && oldAuthorName == null)
                 {
-                    targetB.Author.Name = newAuthorName;
+                    targetB.Author.add(newAuthorName);
+                }else if(newAuthorName != null && oldAuthorName != null)
+                {
+                    targetB.Author.remove(oldAuthorName.Name);
+                    targetB.Author.add(newAuthorName);
                 }
 
-                if (newAuthorSurname != null)
-                {
-                    targetB.Author.Surname = newAuthorSurname;
-                }
 
                 if (newGenre != null)
                 {

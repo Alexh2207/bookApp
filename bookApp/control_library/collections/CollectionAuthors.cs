@@ -8,7 +8,7 @@ namespace control_library.collections
     public class CollectionAuthors
 #pragma warning restore CS0659 // El tipo reemplaza a Object.Equals(object o), pero no reemplaza a Object.GetHashCode()
     {
-        List<Author> Authors { get; set; }
+        public List<Author> Authors { get; set; }
 
         public CollectionAuthors()
         {
@@ -28,7 +28,17 @@ namespace control_library.collections
         public bool add(Author Author)
         {
             if (Authors.Contains(Author)) { return false; }
-            Authors.Add(Author);
+                Authors.Add(Author);
+            return true;
+        }
+
+        public bool add(CollectionAuthors Authors)
+        {
+            foreach (Author element in Authors.Authors)
+            {
+                if (this.Authors.Contains(element)) { return false; }
+                this.Authors.Add(element);
+            }
             return true;
         }
 
@@ -60,6 +70,14 @@ namespace control_library.collections
         {
             return obj is CollectionAuthors authors &&
                    EqualityComparer<List<Author>>.Default.Equals(Authors, authors.Authors);
+        }
+
+        public override string ToString()
+        {
+            string names = string.Empty;
+            foreach (Author element in Authors)
+                names += element.Name + ", ";
+            return names;
         }
 
     }

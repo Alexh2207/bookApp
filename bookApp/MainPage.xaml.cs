@@ -1,6 +1,7 @@
 ﻿using bookApp.Views;
 using control_library.collections;
 using control_library.data;
+using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +46,7 @@ namespace bookApp
             
         }
 
-        void OnAddClicked(object sender, EventArgs e)
+        async void OnAddClicked(object sender, EventArgs e)
         {
             //App.Controller.addBook("12344567", "Max", "Newman", "Nuevo Libro", "Mistery");
             //App.Controller.addBookToBookshelf("12344567", Bookshelf1.BookshelfID);
@@ -53,10 +54,6 @@ namespace bookApp
             //Items.Add(App.Controller.AllBooks.find("12344567"));
 
             Navigation.PushAsync(new CreateBookshelfView(this));
-
-            /*            MyListView.ItemsSource = null;  // This works, but it's DIRTY
-                        MyListView.ItemsSource = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Books;*/
-
 
 
         }

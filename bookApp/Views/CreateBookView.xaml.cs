@@ -1,4 +1,5 @@
 ﻿using control_library.data;
+using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,8 @@ namespace bookApp.Views
 
         public void OnAddNewBook(object sender, EventArgs args)
         {
-            App.Controller.addBook(ISBN.Text,AuthorName.Text,AuthorSurname.Text, BookTitle.Text,Genre.Text);
+
+            App.Controller.addBook(ISBN.Text, AuthorName.Text.Split(',').ToList(), BookTitle.Text,Genre.Text.Split(',').ToList());
             App.Controller.addBookToBookshelf(ISBN.Text, bookshelf.Bookshelf1.BookshelfID);
             bookshelf.BookItems.Add(App.Controller.AllBooks.find(ISBN.Text));
         }

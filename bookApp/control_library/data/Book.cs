@@ -9,13 +9,14 @@ namespace control_library.data
 #pragma warning restore CS0659 // El tipo reemplaza a Object.Equals(object o), pero no reemplaza a Object.GetHashCode()
     {
         public string Isbn { get; set; }
-        public Author Author { get; set; }
+        public CollectionAuthors Author { get; set; }
         public string Title { get; set; }
-        public string Genre { get; set; }
+        public List<string> Genre { get; set; }
         public bool Read { get; set; }
         public bool Wishlist { get; set; }
         public double Valoration { get; set; }
         public string Description { get; set; }
+        public string cover_url { get; set; }
         public CollectionBooks RelevantBooks { get; set; }
         public List<double> Shelves { get; set; }
         public DateTime EndDate { get; set; }
@@ -23,32 +24,34 @@ namespace control_library.data
         public Book()
         {
             Isbn = "";
-            Author = new Author();
+            Author = new CollectionAuthors();
             Title = "";
-            Genre = "";
+            Genre = new List<string>();
             Read = false;
             Wishlist = false;
             Description = "";
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
+            cover_url= string.Empty;
         }
 
-        public Book(string isbn, Author author, string title)
+        public Book(string isbn, CollectionAuthors author, string title)
         {
             Isbn = isbn;
             this.Author = author;
             Title = title;
-            Genre = "";
+            Genre = new List<string>();
             Read = false;
             Wishlist = false;
             Description = "";
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
+            cover_url = string.Empty;
         }
 
-        public Book(string isbn, Author author, string title, string genre)
+        public Book(string isbn, CollectionAuthors author, string title, List<string> genre)
         {
             Isbn = isbn;
             this.Author = author;
@@ -60,6 +63,7 @@ namespace control_library.data
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
+            cover_url = string.Empty;
         }
 
         public bool addToShelf(double shelfID)
@@ -97,7 +101,7 @@ namespace control_library.data
         {
             return obj is Book book &&
                    Isbn == book.Isbn &&
-                   EqualityComparer<Author>.Default.Equals(Author, book.Author) &&
+                   EqualityComparer<CollectionAuthors>.Default.Equals(Author, book.Author) &&
                    Title == book.Title &&
                    Genre == book.Genre;
         }

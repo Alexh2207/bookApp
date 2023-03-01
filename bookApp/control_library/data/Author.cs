@@ -11,33 +11,29 @@ namespace control_library.data
     {
         public double AuthorID { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
         public CollectionBooks PubBooks { get; set; }
 
         public Author() 
         { 
             Name = "";
-            Surname = "";
             PubBooks = new CollectionBooks();
         }
-        public Author(double authorID, string name, string surname, CollectionBooks pubBooks)
+        public Author(double authorID, string name, CollectionBooks pubBooks)
         {
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(String.Concat(name, surname));
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(name);
             int total = 0;
             Array.ForEach(asciiBytes, delegate (byte i) { total += i; });
             AuthorID = total;
             Name = name;
-            Surname = surname;
             PubBooks = pubBooks;
         }
-        public Author(string name, string surname)
+        public Author(string name)
         {
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(String.Concat(name, surname));
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(name);
             int total = 0;
             Array.ForEach(asciiBytes, delegate (byte i) { total += i; });
             AuthorID = total;
             Name = name;
-            Surname = surname;
             PubBooks = new CollectionBooks();
         }
 
@@ -50,14 +46,12 @@ namespace control_library.data
         {
             return obj is Author author &&
                    AuthorID == author.AuthorID &&
-                   Name == author.Name &&
-                   Surname == author.Surname &&
-                   EqualityComparer<CollectionBooks>.Default.Equals(PubBooks, author.PubBooks);
+                   Name == author.Name;
         }
 
         public override string ToString()
         {
-            return Name + " " + Surname;
+            return Name;
         }
 
     }
