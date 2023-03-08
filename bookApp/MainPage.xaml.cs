@@ -18,6 +18,10 @@ namespace bookApp
     {
         public ObservableCollection<Bookshelf> ShelfItems { get; set; }
 
+        public ObservableCollection<searchs> searchedBooks { get; set; }
+
+        private DateTime _lastDate;
+
         public MainPage()
         {
             InitializeComponent();
@@ -29,10 +33,11 @@ namespace bookApp
             CollectionBookshelves TShelves = await App.Controller.GetTShelfAsync();
             ShelfItems = new ObservableCollection<Bookshelf>(TShelves.Bookshelves);
             collectionView.ItemsSource = ShelfItems;
-            
+
+            searchedBooks = new ObservableCollection<searchs>();
+            searchList.ItemsSource = searchedBooks;
         }
 
-        int count = 0;
         async void OnButtonClicked(object sender, System.EventArgs e)
         {
             await Navigation.PushAsync(new BookDetailView(new Book()));
@@ -61,6 +66,21 @@ namespace bookApp
         async void OnTextChanged(object sender, EventArgs e)
         {
             //GET search results
+            if (((SearchBar)sender).Text != string.Empty)
+            {
+
+                OpenLibraryClient client = new OpenLibraryClient();
+            
+                List<searchs> query = await client.GetSearch(((SearchBar)sender).Text);
+           
+
+                searchedBooks.Clear();
+                foreach (searchs book in query)
+                {
+                    searchedBooks.Add(book);
+                }
+            }
+            _lastDate = DateTime.Now;
         }
 
         async void OnDeleteClicked(object sender, EventArgs e)

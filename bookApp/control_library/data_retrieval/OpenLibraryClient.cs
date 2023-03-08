@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 
 namespace control_library.data_retrieval
 {
-    internal class OpenLibraryClient
+    public class OpenLibraryClient
     {
         HttpClient client;
         public OpenLibraryClient() 
@@ -22,7 +22,7 @@ namespace control_library.data_retrieval
             client = new HttpClient();
         }
 
-        public async Task<List<search_book>?> GetSearch(string terms)
+        public async Task<List<searchs>> GetSearch(string terms)
         {
             String url = "https://openlibrary.org/search.json?q=";
 
@@ -48,7 +48,19 @@ namespace control_library.data_retrieval
                 results = search.Result.docs;
             }
 
-            return results;
+            List<searchs> transformedResults = new List<searchs>();
+
+            foreach (search_book book in results)
+            {
+                List<Author> authorList = new List<Author>();
+                foreach(string element in book.author_name)
+                {
+                    authorList.Add(new Author(element));
+                }
+                transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), book.cover_edition_key, book.key));
+            }
+
+            return transformedResults;
         }
 
         public async Task<searched_book> GetWorkData(search_book book)
@@ -99,19 +111,21 @@ namespace control_library.data_retrieval
 
     }
 
-    internal record class search(int numFound, List<search_book> docs, String q);
+    public record class search(int numFound, List<search_book> docs, String q);
 
-    internal record class search_book(String title, List<String> edition_key, List<String> author_name, String cover_edition_key, String key);
+    public record class search_book(String title, List<String> edition_key, List<String> author_name, String cover_edition_key, String key);
 
-    internal record class work(String title, List<String> subjects);
+    public record class searchs(String title, List<String> edition_key, CollectionAuthors author_name, String cover_edition_key, String key);
 
-    internal record class searched_book(String title, List<edition_book> edition_key, List<String> author_name, String cover_url, String key, List<String> subjects);
+    public record class work(String title, List<String> subjects);
 
-    internal record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<int> covers, List<authors_keys> authors);
+    public record class searched_book(String title, List<edition_book> edition_key, List<String> author_name, String cover_url, String key, List<String> subjects);
 
-    internal record class authors_keys(String key);
+    public record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<int> covers, List<authors_keys> authors);
 
-    internal record class authors(String personal_name);
+    public record class authors_keys(String key);
+
+    public record class authors(String personal_name);
 }
 
 

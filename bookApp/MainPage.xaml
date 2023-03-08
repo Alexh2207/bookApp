@@ -9,7 +9,24 @@
            HorizontalTextAlignment="Start"
            FontSize="Medium"
            FontAttributes="Italic" 
-           TextChanged="OnTextChanged"/>
+           SearchButtonPressed="OnTextChanged"/>
+        <ListView x:Name="searchList" HasUnevenRows="False" RowHeight="60">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Spacing="3" Padding="6" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding title}"
+                                           FontSize="Medium" />
+                                <Label Text="{Binding author_name}"
+                                           TextColor="Silver"
+                                           FontSize="Small" />
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
