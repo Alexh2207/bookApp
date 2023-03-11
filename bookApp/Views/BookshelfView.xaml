@@ -58,7 +58,7 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
 
-                            <Image Source="Bookdefault.jpg"/>
+                            <Image Source="{Binding cover_url}"/>
 
                             <Label Text="{Binding Title}" 
                        Style="{DynamicResource ListItemTextStyle}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large" />

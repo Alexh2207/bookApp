@@ -5,22 +5,27 @@
              xmlns:local="clr-namespace:bookApp">
 
     <StackLayout Margin="20,10,20,20" Spacing="3">
-        <SearchBar Placeholder="Search Books..."
+        <SearchBar x:Name="sBar" Placeholder="Search Books..."
            HorizontalTextAlignment="Start"
            FontSize="Medium"
            FontAttributes="Italic" 
            SearchButtonPressed="OnTextChanged"/>
-        <ListView x:Name="searchList" HasUnevenRows="False" RowHeight="60">
+        <ListView x:Name="searchList" HasUnevenRows="False" RowHeight="60" ItemTapped="OnSearchBookTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            <StackLayout Spacing="3" Padding="6" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
-                                <Label Text="{Binding title}"
-                                           FontSize="Medium" />
-                                <Label Text="{Binding author_name}"
-                                           TextColor="Silver"
-                                           FontSize="Small" />
+                            <StackLayout Orientation="Horizontal">
+
+                                <Image Source="{Binding cover_edition_key}"/>
+
+                                <StackLayout Spacing="3" Padding="6" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding title}"
+                                               FontSize="Medium" />
+                                    <Label Text="{Binding author_name}"
+                                               TextColor="Silver"
+                                               FontSize="Small" />
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>

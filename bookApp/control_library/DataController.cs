@@ -49,9 +49,9 @@ namespace control_library
 
             TopLayerBookshelves = new CollectionBookshelves();
             AllBookshelves = new CollectionBookshelves();
-            AllBooks = new Bookshelf();
+            AllBooks = new Bookshelf("All Books", "All the books stored in the app");
             AllAuthors = new CollectionAuthors();
-            Wishlist = new Bookshelf();
+            Wishlist = new Bookshelf("Wishlist", "The books you want to read");
             List <string> author1 = new List<string>();
             author1.Add("Fernando Pescador");
             
@@ -67,16 +67,15 @@ namespace control_library
 
             Bookshelf books = new Bookshelf("All Books", "All the books stored in the app", AllBooks.Books.ToArray());
 
-            AllBookshelves.add(books);
-            TopLayerBookshelves.add(books);
+            AllBookshelves.add(AllBooks);
+            TopLayerBookshelves.add(AllBooks);
 
             Bookshelf wish = new Bookshelf("Wishlist", "The books you want to read", Wishlist.Books.ToArray());
 
-            AllBookshelves.add(wish);
-            TopLayerBookshelves.add(wish);
+            AllBookshelves.add(Wishlist);
+            TopLayerBookshelves.add(Wishlist);
 
-            createSubBookshelf("Prueba", "Estantería de prueba", books.BookshelfID);
-
+            createSubBookshelf("Prueba", "Estantería de prueba", AllBooks.BookshelfID);
 
 
         }
@@ -174,6 +173,110 @@ namespace control_library
                     
                 }
             }catch(AuthorNotFoundException e)
+            {
+                return false;
+            }
+#pragma warning restore CS0168 // La variable está declarada pero nunca se usa
+            return AllBooks.add(newBook);
+        }
+
+        /// <summary>
+        /// Adds a Book to the application.
+        /// </summary>
+        /// <param name="isbn">ISBN of the book</param>
+        /// <param name="authorName">Name of the author</param>
+        /// <param name="authorSurname">Surname of the author</param>
+        /// <param name="title">Title of the book</param>
+        /// <param name="genre">Genre of the book</param>
+        /// <param name="cover">Cover of the book</param>
+        /// <returns>True if successful, False if failure</returns>
+        public bool addBook(string isbn, List<string> authorName, string title, List<string> genre, string url)
+        {
+            CollectionAuthors author = new CollectionAuthors();
+            foreach (string element in authorName)
+            {
+                author.add(new Author(element));
+            }
+            Book newBook = new Book(isbn, author, title, genre, url);
+            //AÑADIR LIBRO A PUBLICADOS DEL AUTOR
+            //Search for author
+            try
+#pragma warning disable CS0168 // La variable está declarada pero nunca se usa
+            {
+                foreach (Author element in author.Authors)
+                {
+                    AllAuthors.add(element);
+                    AllAuthors.find(element.AuthorID).addBook(newBook);
+
+                }
+            }
+            catch (AuthorNotFoundException e)
+            {
+                return false;
+            }
+#pragma warning restore CS0168 // La variable está declarada pero nunca se usa
+            return AllBooks.add(newBook);
+        }
+
+        /// <summary>
+        /// Adds a Book to the application.
+        /// </summary>
+        /// <param name="isbn">ISBN of the book</param>
+        /// <param name="authorName">Name of the author</param>
+        /// <param name="authorSurname">Surname of the author</param>
+        /// <param name="title">Title of the book</param>
+        /// <param name="genre">Genre of the book</param>
+        /// <returns>True if successful, False if failure</returns>
+        public bool addBook(string isbn, CollectionAuthors authorName, string title, List<string> genre)
+        {
+            
+            Book newBook = new Book(isbn, authorName, title, genre);
+            //AÑADIR LIBRO A PUBLICADOS DEL AUTOR
+            //Search for author
+            try
+#pragma warning disable CS0168 // La variable está declarada pero nunca se usa
+            {
+                foreach (Author element in authorName.Authors)
+                {
+                    AllAuthors.add(element);
+                    AllAuthors.find(element.AuthorID).addBook(newBook);
+
+                }
+            }
+            catch (AuthorNotFoundException e)
+            {
+                return false;
+            }
+#pragma warning restore CS0168 // La variable está declarada pero nunca se usa
+            return AllBooks.add(newBook);
+        }
+
+        /// <summary>
+        /// Adds a Book to the application.
+        /// </summary>
+        /// <param name="isbn">ISBN of the book</param>
+        /// <param name="authorName">Name of the author</param>
+        /// <param name="authorSurname">Surname of the author</param>
+        /// <param name="title">Title of the book</param>
+        /// <param name="genre">Genre of the book</param>
+        /// <returns>True if successful, False if failure</returns>
+        public bool addBook(string isbn, CollectionAuthors authorName, string title, List<string> genre, string cover_url)
+        {
+
+            Book newBook = new Book(isbn, authorName, title, genre, cover_url);
+            //AÑADIR LIBRO A PUBLICADOS DEL AUTOR
+            //Search for author
+            try
+#pragma warning disable CS0168 // La variable está declarada pero nunca se usa
+            {
+                foreach (Author element in authorName.Authors)
+                {
+                    AllAuthors.add(element);
+                    AllAuthors.find(element.AuthorID).addBook(newBook);
+
+                }
+            }
+            catch (AuthorNotFoundException e)
             {
                 return false;
             }

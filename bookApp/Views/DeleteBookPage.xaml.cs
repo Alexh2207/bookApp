@@ -59,7 +59,7 @@ namespace bookApp.Views
                 App.Controller.removeBook(item);
             }
 
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
 
     }

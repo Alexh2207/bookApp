@@ -33,7 +33,7 @@ namespace control_library.data
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
-            cover_url= string.Empty;
+            cover_url= "Bookdefault.jpg";
         }
 
         public Book(string isbn, CollectionAuthors author, string title)
@@ -48,7 +48,7 @@ namespace control_library.data
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
-            cover_url = string.Empty;
+            cover_url = "Bookdefault.jpg";
         }
 
         public Book(string isbn, CollectionAuthors author, string title, List<string> genre)
@@ -63,7 +63,22 @@ namespace control_library.data
             Shelves = new List<double>();
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
-            cover_url = string.Empty;
+            cover_url = "Bookdefault.jpg";
+        }
+
+        public Book(string isbn, CollectionAuthors author, string title, List<string> genre, string cover)
+        {
+            Isbn = isbn;
+            this.Author = author;
+            Title = title;
+            Genre = genre;
+            Read = false;
+            Wishlist = false;
+            Description = "";
+            Shelves = new List<double>();
+            RelevantBooks = new CollectionBooks();
+            EndDate = new DateTime();
+            cover_url = cover;
         }
 
         public bool addToShelf(double shelfID)

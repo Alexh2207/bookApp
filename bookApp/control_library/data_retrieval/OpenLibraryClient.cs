@@ -57,13 +57,13 @@ namespace control_library.data_retrieval
                 {
                     authorList.Add(new Author(element));
                 }
-                transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), book.cover_edition_key, book.key));
+                transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), "https://covers.openlibrary.org/b/olid/" + book.cover_edition_key + "-L.jpg", book.key));
             }
 
             return transformedResults;
         }
 
-        public async Task<searched_book> GetWorkData(search_book book)
+        public async Task<searched_book> GetWorkData(searchs book)
         {
 
             String base_url = "https://openlibrary.org/books/";
@@ -93,8 +93,10 @@ namespace control_library.data_retrieval
                 Console.WriteLine(url);
                 json = await client.GetStreamAsync(url);
                 var search = (JsonSerializer.DeserializeAsync<edition_book>(json));
-                if(search != null) 
+                if (search != null)
+                {
                     edList.Add(search.Result);
+                }
             }
 
             url = "https://openlibrary.org/" + book.key + ".json";
@@ -119,9 +121,11 @@ namespace control_library.data_retrieval
 
     public record class work(String title, List<String> subjects);
 
-    public record class searched_book(String title, List<edition_book> edition_key, List<String> author_name, String cover_url, String key, List<String> subjects);
+    public record class searched_book(String title, List<edition_book> edition_key, CollectionAuthors author_name, String cover_url, String key, List<String> subjects);
 
     public record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<int> covers, List<authors_keys> authors);
+
+    public record class edition_transform(String title, int number_of_pages, String isbn_13, string covers, CollectionAuthors authors);
 
     public record class authors_keys(String key);
 

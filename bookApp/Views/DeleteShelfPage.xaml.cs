@@ -54,7 +54,7 @@ namespace bookApp.Views
                 App.Controller.removeBookshelf(item);
             }
 
-            Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
     }
 }

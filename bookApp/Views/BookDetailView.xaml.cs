@@ -1,24 +1,132 @@
-﻿using control_library.data;
+﻿using control_library.collections;
+using control_library.data;
+using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
+using static System.Net.WebRequestMethods;
 
 namespace bookApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BookDetailView : ContentPage
     {
-        
+
+        Xamarin.Forms.Button addBook;
+
+        searchs book { get; set; }
+
+        bool local_book;
+
+        searched_book editionCollect { get; set; }
+
+        ObservableCollection <edition_transform> Editions { get; set; }
+
         public BookDetailView(Book book)
         {
             InitializeComponent();
             Title1.Text = book.Title;
             Author.Text = book.Author.ToString();
+            cover.Source = book.cover_url;
+            Editions = new ObservableCollection<edition_transform>();
+            local_book = true;
         }
+
+        public BookDetailView(searchs book)
+        {
+            InitializeComponent();
+            Title1.Text = book.title;
+            Author.Text = book.author_name.ToString();
+            cover.Source = book.cover_edition_key;
+            addBook = new Xamarin.Forms.Button();
+            addBook.Text = "Add";
+            addBook.Clicked += new EventHandler(OnAddClicked);
+            grid.Children.Add(addBook,0,1,4,5);
+            this.book = book;
+            Editions = new ObservableCollection<edition_transform>();
+            local_book = false;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if (!local_book)
+            {
+                OpenLibraryClient openLibraryClient = new OpenLibraryClient();
+
+                editionCollect = await openLibraryClient.GetWorkData(book);
+
+                string title, isbn = string.Empty;
+
+                List<int> covers = new List<int>();
+
+                foreach (edition_book element in editionCollect.edition_key)
+                {
+
+                    if (element.isbn_13 != null && element.isbn_13.ElementAt(0) != null)
+                    {
+                        if (element.title == null)
+                        {
+                            title = book.title;
+                        }
+                        else
+                        {
+                            title = element.title;
+                        }
+
+                        if (element.covers == null)
+                        {
+                            covers.Add(0);
+                        }
+                        else
+                        {
+                            covers = element.covers;
+                        }
+
+                        Editions.Add(new edition_transform(title, element.number_of_pages, element.isbn_13.ElementAt(0), "https://covers.openlibrary.org/b/id/" + covers.ElementAt(0) + "-M.jpg", book.author_name));
+                    }
+
+                }
+
+                editionList.ItemsSource = Editions;
+            }
+        }
+
+        async void OnAddClicked(object sender, EventArgs e)
+        {
+
+            OpenLibraryClient openLibraryClient = new OpenLibraryClient();
+
+            searched_book editions = await openLibraryClient.GetWorkData(book);
+
+            App.Controller.addBook(editions.edition_key.ElementAt(0).isbn_13.First(),book.author_name,book.title, editions.subjects, book.cover_edition_key);
+            App.Controller.addBookToBookshelf(editions.edition_key.ElementAt(0).isbn_13.First(), App.Controller.AllBooks.BookshelfID);
+
+
+            Console.WriteLine("Book");
+
+        }
+
+        async void OnEditionTapped(object sender, EventArgs e)
+        {
+
+            edition_transform edition = (edition_transform)((Xamarin.Forms.ListView)sender).SelectedItem;
+
+            App.Controller.addBook(edition.isbn_13, book.author_name, edition.title, editionCollect.subjects, edition.covers.Replace("-M","-L"));
+            App.Controller.addBookToBookshelf(edition.isbn_13, App.Controller.AllBooks.BookshelfID);
+
+            ((Xamarin.Forms.ListView)sender).SelectedItem = null;
+
+            Console.WriteLine("Book");
+
+        }
+
     }
 }

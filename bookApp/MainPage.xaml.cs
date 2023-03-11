@@ -33,7 +33,7 @@ namespace bookApp
             CollectionBookshelves TShelves = await App.Controller.GetTShelfAsync();
             ShelfItems = new ObservableCollection<Bookshelf>(TShelves.Bookshelves);
             collectionView.ItemsSource = ShelfItems;
-
+            sBar.Text = string.Empty;
             searchedBooks = new ObservableCollection<searchs>();
             searchList.ItemsSource = searchedBooks;
         }
@@ -58,13 +58,13 @@ namespace bookApp
 
             //Items.Add(App.Controller.AllBooks.find("12344567"));
 
-            Navigation.PushAsync(new CreateBookshelfView(this));
+            await Navigation.PushAsync(new CreateBookshelfView(this));
 
 
         }
 
         async void OnTextChanged(object sender, EventArgs e)
-        {
+        {   
             //GET search results
             if (((SearchBar)sender).Text != string.Empty)
             {
@@ -81,6 +81,15 @@ namespace bookApp
                 }
             }
             _lastDate = DateTime.Now;
+        }
+
+        async void OnSearchBookTapped(object sender, EventArgs e)
+        {
+            //GET search results
+            await Navigation.PushAsync(new BookDetailView((searchs)((ListView)sender).SelectedItem));
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
         }
 
         async void OnDeleteClicked(object sender, EventArgs e)

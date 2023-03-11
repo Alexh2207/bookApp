@@ -3,21 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bookApp.Views.BookDetailView">
   
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Source="Bookdefault.jpg" Grid.RowSpan="4" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Image x:Name="cover" Grid.RowSpan="4" HorizontalOptions="Center" VerticalOptions="Center"/>
         <Label x:Name="Title1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" FontSize="Large"/>
         <Label x:Name="Author" Text="Author of the book" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+        <ListView x:Name="editionList" HasUnevenRows="False" RowHeight="60" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnEditionTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal">
 
+                                <Image Source="{Binding covers}"/>
+
+                                <StackLayout Spacing="3" Padding="6" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding title}"
+                                               FontSize="Medium" />
+                                    <Label Text="{Binding authors}"
+                                               TextColor="Silver"
+                                               FontSize="Small" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
   
 </ContentPage>

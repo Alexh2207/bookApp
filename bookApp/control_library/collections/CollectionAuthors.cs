@@ -25,6 +25,15 @@ namespace control_library.collections
             Authors = new List<Author>(authors);
         }
 
+        public CollectionAuthors(List<String> authors)
+        {
+            Authors = new List<Author>();
+            foreach (String element in authors)
+            {
+                Authors.Add(new Author(element));
+            }
+        }
+
         public bool add(Author Author)
         {
             if (Authors.Contains(Author)) { return false; }
