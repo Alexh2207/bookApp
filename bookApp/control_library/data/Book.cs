@@ -1,6 +1,7 @@
 ﻿using control_library.collections;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace control_library.data
 {
@@ -119,6 +120,13 @@ namespace control_library.data
                    EqualityComparer<CollectionAuthors>.Default.Equals(Author, book.Author) &&
                    Title == book.Title &&
                    Genre == book.Genre;
+        }
+
+        public string serializeBook()
+        {
+
+            return JsonSerializer.Serialize(this);
+
         }
 
     }

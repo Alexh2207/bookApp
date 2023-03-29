@@ -69,6 +69,10 @@
                  Order="Primary"
                  Priority="0"
                  Clicked="OnAddClicked"/>
+        <ToolbarItem Text="Scan Book"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="OnPhotoClicked"/>
     </ContentPage.ToolbarItems>
 
 </ContentPage>

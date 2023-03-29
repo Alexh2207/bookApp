@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using control_library.collections;
 using control_library.data;
@@ -76,6 +77,8 @@ namespace control_library
             TopLayerBookshelves.add(Wishlist);
 
             createSubBookshelf("Prueba", "Estantería de prueba", AllBooks.BookshelfID);
+
+            Console.WriteLine(this.serializeAll());
 
 
         }
@@ -480,6 +483,12 @@ namespace control_library
         public Task<CollectionBookshelves> GetTShelfAsync()
         {
             return Task.FromResult(TopLayerBookshelves);
+        }
+
+        public string serializeAll()
+        {
+            return JsonSerializer.Serialize(this);
+
         }
     }
 }

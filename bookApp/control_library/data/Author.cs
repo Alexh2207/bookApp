@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System;
 using control_library.collections;
 
@@ -11,14 +12,14 @@ namespace control_library.data
     {
         public double AuthorID { get; set; }
         public string Name { get; set; }
-        public CollectionBooks PubBooks { get; set; }
+        public List<string> PubBooks { get; set; }
 
         public Author() 
         { 
             Name = "";
-            PubBooks = new CollectionBooks();
+            PubBooks = new List<string>();
         }
-        public Author(double authorID, string name, CollectionBooks pubBooks)
+        public Author(double authorID, string name, List<string> pubBooks)
         {
             byte[] asciiBytes = Encoding.ASCII.GetBytes(name);
             int total = 0;
@@ -34,12 +35,12 @@ namespace control_library.data
             Array.ForEach(asciiBytes, delegate (byte i) { total += i; });
             AuthorID = total;
             Name = name;
-            PubBooks = new CollectionBooks();
+            PubBooks = new List<string>();
         }
 
-        public bool addBook(Book book)
+        public void addBook(Book book)
         {
-            return PubBooks.add(book);
+            PubBooks.Add(book.Isbn);
         }
 
         public override bool Equals(object obj)
@@ -52,6 +53,13 @@ namespace control_library.data
         public override string ToString()
         {
             return Name;
+        }
+
+        public string serializeAuthor()
+        {
+
+            return JsonSerializer.Serialize(this);
+
         }
 
     }
