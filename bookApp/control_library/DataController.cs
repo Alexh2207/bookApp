@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -44,7 +45,7 @@ namespace control_library
         /// <summary>
         /// Initializes the Data Controller
         /// </summary>
-        public DataController()
+        public DataController(int i)
         {
             //IMPLEMENT DATA RETRIEVAL
 
@@ -80,9 +81,20 @@ namespace control_library
 
             Console.WriteLine(this.serializeAll());
 
+        }
+
+        public DataController()
+        {
+            //IMPLEMENT DATA RETRIEVAL
+
+            TopLayerBookshelves = new CollectionBookshelves();
+            AllBookshelves = new CollectionBookshelves();
+            AllBooks = new Bookshelf("All Books", "All the books stored in the app");
+            AllAuthors = new CollectionAuthors();
+            Wishlist = new Bookshelf("Wishlist", "The books you want to read");
 
         }
-        
+
         /// <summary>
         /// Creates a Bookshelf at the top layer
         /// </summary>

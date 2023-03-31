@@ -1,4 +1,5 @@
 ﻿using bookApp.Views;
+using control_library;
 using control_library.collections;
 using control_library.data;
 using control_library.data_retrieval;
@@ -9,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -29,6 +31,7 @@ namespace bookApp
         public MainPage()
         {
             InitializeComponent();
+
         }
 
         protected override async void OnAppearing()
@@ -40,6 +43,27 @@ namespace bookApp
             sBar.Text = string.Empty;
             searchedBooks = new ObservableCollection<searchs>();
             searchList.ItemsSource = searchedBooks;
+
+/*            var dataStream = File.OpenWrite(Path.Combine("/storage/self/primary/Documents", "data.json"));
+
+            string info = App.Controller.serializeAll();
+
+            Console.WriteLine(info);
+
+            var bytes = Encoding.UTF8.GetBytes(info);
+
+            Console.WriteLine(bytes.Length);
+
+            dataStream.Write(bytes, 0, bytes.Length);
+
+            dataStream.Close();
+
+            DataController test = new DataController();
+
+            test = JsonSerializer.Deserialize<DataController>(File.ReadAllText(Path.Combine("/storage/self/primary/Documents", "data.json")));
+
+            Console.WriteLine(test.AllBooks.Books.ElementAt(0).Title);
+*/
         }
 
         async void OnButtonClicked(object sender, System.EventArgs e)
@@ -156,6 +180,8 @@ namespace bookApp
             using (var stream = await photo.OpenReadAsync())
             using (var newStream = File.OpenWrite(newFile))
                 await stream.CopyToAsync(newStream);
+
+
 
             PhotoPath = newFile;
         }
