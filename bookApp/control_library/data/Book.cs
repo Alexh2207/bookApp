@@ -9,7 +9,14 @@ namespace control_library.data
     public class Book
 #pragma warning restore CS0659 // El tipo reemplaza a Object.Equals(object o), pero no reemplaza a Object.GetHashCode()
     {
+        /// <summary>
+        /// ISBN of book. unique identifier
+        /// </summary>
         public string Isbn { get; set; }
+
+        /// <summary>
+        /// Collection of Authors of the book
+        /// </summary>
         public CollectionAuthors Author { get; set; }
         public string Title { get; set; }
         public List<string> Genre { get; set; }

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.IO;
 using System.Diagnostics;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace bookApp
 {
@@ -20,9 +21,7 @@ namespace bookApp
             {
                 if (controller == null)
                 {
-                    int i = 0;
                     controller = new DataController();
-                    
                 }
                 return controller;
             }
@@ -37,14 +36,25 @@ namespace bookApp
 
         protected override void OnStart()
         {
-            controller = JsonSerializer.Deserialize<DataController>(File.ReadAllText(Path.Combine("/storage/self/primary/Documents", "data.json")));
+            try
+            {
+                controller = JsonSerializer.Deserialize<DataController>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory, "data.json")));
+            }catch(Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                controller = new DataController(1);
+            }
         }
 
         protected override void OnSleep()
         {
             Debug.WriteLine("---------------SLEEPING--------------");
 
-            var dataStream = File.OpenWrite(Path.Combine("/storage/self/primary/Documents", "data.json"));
+            var dataStream = File.OpenWrite(Path.Combine(FileSystem.AppDataDirectory, "data.json"));
+
+            dataStream.SetLength(0);
+
+            dataStream.Flush();
 
             string info = App.Controller.serializeAll();
 

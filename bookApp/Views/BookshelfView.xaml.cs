@@ -25,7 +25,7 @@ namespace bookApp.Views
             Bookshelf1 = bookshelf;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             Bookshelf Shelf = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID);
@@ -48,17 +48,8 @@ namespace bookApp.Views
 
         void OnAddClicked(object sender, EventArgs e)
         {
-            //App.Controller.addBook("12344567", "Max", "Newman", "Nuevo Libro", "Mistery");
-            //App.Controller.addBookToBookshelf("12344567", Bookshelf1.BookshelfID);
-
-            //Items.Add(App.Controller.AllBooks.find("12344567"));
 
             Navigation.PushAsync(new CreateBookshelfView(this));
-
-            /*            MyListView.ItemsSource = null;  // This works, but it's DIRTY
-                        MyListView.ItemsSource = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Books;*/
-
-
 
         }
 
@@ -66,6 +57,8 @@ namespace bookApp.Views
         {
             if (e.Item == null)
                 return;
+
+            //Navegate to the subshelf pressed
 
             await Navigation.PushAsync(new BookshelfView((Bookshelf)((ListView)sender).SelectedItem));
             ((ListView)sender).SelectedItem = null;

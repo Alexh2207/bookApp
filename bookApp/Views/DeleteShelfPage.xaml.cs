@@ -24,13 +24,13 @@ namespace bookApp.Views
         }
 
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             DeleteList.ItemsSource = Bookshelf.ShelfItems;
         }
 
-        async void OnCheckedChanged(object sender, EventArgs e)
+        void OnCheckedChanged(object sender, EventArgs e)
         {
             //GET search results
             double isbn = double.Parse(((CheckBox)sender).BindingContext.ToString());

@@ -43,7 +43,7 @@ namespace control_library
         public CollectionAuthors AllAuthors { get; set; }
 
         /// <summary>
-        /// Initializes the Data Controller
+        /// Initializes the Data Controller in case no data could be found. ONLY FOR TESTS
         /// </summary>
         public DataController(int i)
         {
@@ -83,10 +83,11 @@ namespace control_library
 
         }
 
+        /// <summary>
+        /// Initializes blank controller
+        /// </summary>
         public DataController()
         {
-            //IMPLEMENT DATA RETRIEVAL
-
             TopLayerBookshelves = new CollectionBookshelves();
             AllBookshelves = new CollectionBookshelves();
             AllBooks = new Bookshelf("All Books", "All the books stored in the app");

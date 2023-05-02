@@ -6,11 +6,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using System.Runtime.CompilerServices;
 
 namespace control_library.data_retrieval
 {
@@ -38,7 +35,7 @@ namespace control_library.data_retrieval
 
             if(search.Result.numFound >= 20)
             {
-                results = search.Result.docs.Take(50).ToList();
+                results = search.Result.docs.Take(20).ToList();
             }else if(search.Result.numFound == 0)
             {
                 return null;
@@ -53,11 +50,21 @@ namespace control_library.data_retrieval
             foreach (search_book book in results)
             {
                 List<Author> authorList = new List<Author>();
-                foreach(string element in book.author_name)
+                if (book.author_name != null)
                 {
-                    authorList.Add(new Author(element));
+                    foreach (string element in book.author_name)
+                    {
+                        authorList.Add(new Author(element));
+                    }
                 }
-                transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), "https://covers.openlibrary.org/b/olid/" + book.cover_edition_key + "-L.jpg", book.key));
+                if (book.cover_edition_key != null)
+                {
+                    transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), "https://covers.openlibrary.org/b/olid/" + book.cover_edition_key + "-L.jpg", book.key));
+                }
+                else
+                {
+                    transformedResults.Add(new searchs(book.title, book.edition_key, new CollectionAuthors(authorList), "Bookdefault.jpg", book.key));
+                }
             }
 
             return transformedResults;
@@ -115,16 +122,62 @@ namespace control_library.data_retrieval
 
     public record class search(int numFound, List<search_book> docs, String q);
 
+    /// <summary>
+    /// Work record to deserialize JSON.
+    /// </summary>
+    /// <param name="title">Common title to editions</param>
+    /// <param name="edition_key">Keys of all editions</param>
+    /// <param name="author_name">Author name</param>
+    /// <param name="cover_edition_key">Cover key</param>
+    /// <param name="key">Work key</param>
     public record class search_book(String title, List<String> edition_key, List<String> author_name, String cover_edition_key, String key);
 
+    /// <summary>
+    /// Translation to CollectionAuthors.
+    /// </summary>
+    /// <param name="title">Common title to editions</param>
+    /// <param name="edition_key">Keys of all editions</param>
+    /// <param name="author_name">Author name</param>
+    /// <param name="cover_edition_key">Cover key</param>
+    /// <param name="key">Work key</param>
     public record class searchs(String title, List<String> edition_key, CollectionAuthors author_name, String cover_edition_key, String key);
 
+    /// <summary>
+    /// Work specific data
+    /// </summary>
+    /// <param name="title">Title</param>
+    /// <param name="subjects">Subjects of the book</param>
     public record class work(String title, List<String> subjects);
 
+    /// <summary>
+    /// Record to store most information of a concrete searched book
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="edition_key"></param>
+    /// <param name="author_name"></param>
+    /// <param name="cover_url"></param>
+    /// <param name="key"></param>
+    /// <param name="subjects"></param>
     public record class searched_book(String title, List<edition_book> edition_key, CollectionAuthors author_name, String cover_url, String key, List<String> subjects);
 
+    /// <summary>
+    /// Edition specific record to store information of an edition
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="number_of_pages"></param>
+    /// <param name="isbn_13"></param>
+    /// <param name="covers"></param>
+    /// <param name="authors"></param>
     public record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<int> covers, List<authors_keys> authors);
 
+    /// <summary>
+    /// Translation of data to be understood by mobile application. Please clean.
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="number_of_pages"></param>
+    /// <param name="isbn_13"></param>
+    /// <param name="covers"></param>
+    /// <param name="authors"></param>
     public record class edition_transform(String title, int number_of_pages, String isbn_13, string covers, CollectionAuthors authors);
 
     public record class authors_keys(String key);

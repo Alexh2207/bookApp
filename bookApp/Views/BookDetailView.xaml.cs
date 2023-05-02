@@ -1,17 +1,11 @@
-﻿using control_library.collections;
-using control_library.data;
+﻿using control_library.data;
 using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
-using static System.Net.WebRequestMethods;
 
 namespace bookApp.Views
 {
@@ -29,6 +23,10 @@ namespace bookApp.Views
 
         ObservableCollection <edition_transform> Editions { get; set; }
 
+        /// <summary>
+        /// When arriving from a book already stored in the app you are not able to modify it
+        /// </summary>
+        /// <param name="book"></param>
         public BookDetailView(Book book)
         {
             InitializeComponent();
@@ -39,6 +37,10 @@ namespace bookApp.Views
             local_book = true;
         }
 
+        /// <summary>
+        /// When coming from a searched book you can choose the edition
+        /// </summary>
+        /// <param name="book"></param>
         public BookDetailView(searchs book)
         {
             InitializeComponent();
@@ -57,6 +59,9 @@ namespace bookApp.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            //If not a local book, search for all the editions and display them
+
             if (!local_book)
             {
                 OpenLibraryClient openLibraryClient = new OpenLibraryClient();
@@ -99,6 +104,11 @@ namespace bookApp.Views
             }
         }
 
+        /// <summary>
+        /// Add the default edition of the book to the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnAddClicked(object sender, EventArgs e)
         {
 
@@ -112,10 +122,18 @@ namespace bookApp.Views
 
             Console.WriteLine("Book");
 
+            await Navigation.PopAsync();
+
         }
 
+        /// <summary>
+        /// Add a concrete edition to the application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnEditionTapped(object sender, EventArgs e)
         {
+            //ADD BOOKSHELF SELECTION
 
             edition_transform edition = (edition_transform)((Xamarin.Forms.ListView)sender).SelectedItem;
 
@@ -126,6 +144,7 @@ namespace bookApp.Views
 
             Console.WriteLine("Book");
 
+            await Navigation.PopAsync();
         }
 
     }

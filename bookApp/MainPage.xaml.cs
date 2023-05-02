@@ -1,18 +1,13 @@
 ﻿using bookApp.Views;
-using control_library;
 using control_library.collections;
 using control_library.data;
 using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -23,8 +18,6 @@ namespace bookApp
         public ObservableCollection<Bookshelf> ShelfItems { get; set; }
 
         public ObservableCollection<searchs> searchedBooks { get; set; }
-
-        private DateTime _lastDate;
 
         private string PhotoPath;
 
@@ -37,40 +30,34 @@ namespace bookApp
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            //Get the top shelves asynchronically
+
             CollectionBookshelves TShelves = await App.Controller.GetTShelfAsync();
+
+            //Add the shelves to the collection in the list
+
             ShelfItems = new ObservableCollection<Bookshelf>(TShelves.Bookshelves);
             collectionView.ItemsSource = ShelfItems;
+
+            //Search bar initialization
+
             sBar.Text = string.Empty;
             searchedBooks = new ObservableCollection<searchs>();
             searchList.ItemsSource = searchedBooks;
-
-/*            var dataStream = File.OpenWrite(Path.Combine("/storage/self/primary/Documents", "data.json"));
-
-            string info = App.Controller.serializeAll();
-
-            Console.WriteLine(info);
-
-            var bytes = Encoding.UTF8.GetBytes(info);
-
-            Console.WriteLine(bytes.Length);
-
-            dataStream.Write(bytes, 0, bytes.Length);
-
-            dataStream.Close();
-
-            DataController test = new DataController();
-
-            test = JsonSerializer.Deserialize<DataController>(File.ReadAllText(Path.Combine("/storage/self/primary/Documents", "data.json")));
-
-            Console.WriteLine(test.AllBooks.Books.ElementAt(0).Title);
-*/
         }
-
+        /*
         async void OnButtonClicked(object sender, System.EventArgs e)
         {
             await Navigation.PushAsync(new BookDetailView(new Book()));
         }
+        */
 
+        /// <summary>
+        /// When a Bookshlef is selected, this event will navigate to the Bookshelf Detail page
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         async void BookshelfSelected(object sender, System.EventArgs e)
         {
             
@@ -79,56 +66,67 @@ namespace bookApp
             
         }
 
+        /// <summary>
+        /// When clicked on add bookshelf, redirect to the add bookshelf page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnAddClicked(object sender, EventArgs e)
         {
-            //App.Controller.addBook("12344567", "Max", "Newman", "Nuevo Libro", "Mistery");
-            //App.Controller.addBookToBookshelf("12344567", Bookshelf1.BookshelfID);
-
-            //Items.Add(App.Controller.AllBooks.find("12344567"));
+            
+            //Bookshelf creation
 
             await Navigation.PushAsync(new CreateBookshelfView(this));
 
-
-
         }
 
+        /// <summary>
+        /// When pressed on scan photo, go to camera and take photo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnPhotoClicked(object sender, EventArgs e)
         {
-            //App.Controller.addBook("12344567", "Max", "Newman", "Nuevo Libro", "Mistery");
-            //App.Controller.addBookToBookshelf("12344567", Bookshelf1.BookshelfID);
-
-            //Items.Add(App.Controller.AllBooks.find("12344567"));
-
-            //await Navigation.PushAsync(new CreateBookshelfView(this));
-
 
             await TakePhotoAsync();
 
             Console.WriteLine(PhotoPath);
 
-
         }
 
+        /// <summary>
+        /// Search for what is written in the search bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnTextChanged(object sender, EventArgs e)
         {   
             //GET search results
+
             if (((SearchBar)sender).Text != string.Empty)
             {
+
+                //Use the API to search the book
 
                 OpenLibraryClient client = new OpenLibraryClient();
             
                 List<searchs> query = await client.GetSearch(((SearchBar)sender).Text);
-           
+                
 
                 searchedBooks.Clear();
+
                 foreach (searchs book in query)
                 {
                     searchedBooks.Add(book);
                 }
             }
-            _lastDate = DateTime.Now;
         }
 
+        /// <summary>
+        /// Display the details of the pressed book
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnSearchBookTapped(object sender, EventArgs e)
         {
             //GET search results
@@ -138,28 +136,27 @@ namespace bookApp
             ((ListView)sender).SelectedItem = null;
         }
 
-        async void OnDeleteClicked(object sender, EventArgs e)
-        {
-            //GET search results
-            //await Navigation.PushAsync(new DeleteBookPage(new BookshelfView(ShelfItems[0])));
-        }
-
 
         private async Task TakePhotoAsync()
         {
             try
             {
+                //Take the photo and save it (in the future will be sent to the server)
+
                 var photo = await MediaPicker.CapturePhotoAsync();
                 await LoadPhotoAsync(photo);
                 Console.WriteLine($"CapturePhotoAsync COMPLETED: {PhotoPath}");
+            
             }
             catch (FeatureNotSupportedException fnsEx)
             {
                 // Feature is not supported on the device
+                Debug.WriteLine(fnsEx.Message );
             }
             catch (PermissionException pEx)
             {
                 // Permissions not granted
+                Debug.WriteLine(pEx.Message);
             }
             catch (Exception ex)
             {

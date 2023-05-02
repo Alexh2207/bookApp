@@ -4,8 +4,8 @@
              x:Class="bookApp.Views.CreateBookshelfView">
     <ContentPage.Content>
         <StackLayout>
-            <Entry x:Name="Name" Placeholder="ISBN of the book" />
-            <Entry x:Name="Concept" Placeholder="Title of the book" />
+            <Entry x:Name="Name" Placeholder="Name of the bookshelf" />
+            <Entry x:Name="Concept" Placeholder="Concept of the Bookshelf" />
             <Button x:Name="AddBookshelf" Text="Add Bookshelf" Clicked="OnAddNewBookShelf"/>
         </StackLayout>
     </ContentPage.Content>
