@@ -15,6 +15,7 @@ namespace control_library.data
         public string ShelfName { get; set; }
         public string Concept { get; set; }
 
+        //CAMBIAR A LISTA DE IDs
         public CollectionBookshelves Shelves { get; set; }
 
         public Bookshelf(string name, string concept)
@@ -56,6 +57,7 @@ namespace control_library.data
             return add(book);
         }
 
+        //AÑADIR SOLAMENTE LA ID
         public bool addShelf(Bookshelf bookshelf)
         {
             Shelves.add(bookshelf);

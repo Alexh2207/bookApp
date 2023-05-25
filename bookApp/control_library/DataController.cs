@@ -129,8 +129,11 @@ namespace control_library
 #pragma warning disable CS0168 // La variable está declarada pero nunca se usa
             try
             {
+                //CHANGE ELEMENT TYPE TO ID
+
                 foreach(Bookshelf element in AllBookshelves.find(bookshelfID).Shelves.Bookshelves)
                 {
+                    //SEARCH IN ALL BOOKSHELVES FOR NAME
                     if (element.ShelfName.Equals(name))
                     {
                         Console.WriteLine("nombre ya existente en la estantería padre");
@@ -138,6 +141,7 @@ namespace control_library
                     }
                 }
 
+                //CHILD BOOKSHELFID
                 if (!AllBookshelves.find(bookshelfID).addShelf(bookshelf))
                 {
                     return -1;
@@ -373,6 +377,9 @@ namespace control_library
         /// <returns>True if successful, False if failure</returns>
         public bool removeBookshelf(double ID)
         {
+
+            //NORMALIZACIÓN DE DATOS, BORRAR UNA VEZ DE ALL BOOKSHELVES Y TODAS EN LAS QUE TENGA ID
+
             foreach(Bookshelf booksh in AllBookshelves.find(ID).Shelves.Bookshelves)
             {
                 AllBookshelves.remove(booksh.BookshelfID);
@@ -382,6 +389,9 @@ namespace control_library
             {
                 bookshelf.Shelves.remove(ID);
             }
+
+            AllBooks.Shelves.remove(ID);
+
             foreach(Book book in AllBooks.Books)
             {
                 book.Shelves.Remove(ID);
