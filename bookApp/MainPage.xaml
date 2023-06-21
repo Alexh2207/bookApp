@@ -72,6 +72,10 @@
                  Order="Primary"
                  Priority="0"
                  Clicked="OnPhotoClicked"/>
+        <ToolbarItem Text="Send request"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="OnRequestClicked"/>
     </ContentPage.ToolbarItems>
 
 </ContentPage>

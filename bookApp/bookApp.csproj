@@ -22,6 +22,9 @@
     <Compile Update="Views\BookshelfView.xaml.cs">
       <DependentUpon>BookshelfView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\AddBookPage.xaml.cs">
+      <DependentUpon>AddBookPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\DeleteBookPage.xaml.cs">
       <DependentUpon>DeleteBookPage.xaml</DependentUpon>
     </Compile>

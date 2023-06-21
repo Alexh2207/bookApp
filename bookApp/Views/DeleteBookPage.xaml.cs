@@ -1,14 +1,6 @@
-﻿using control_library.collections;
-using control_library.data;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace bookApp.Views
@@ -56,7 +48,8 @@ namespace bookApp.Views
             {
 
                 Bookshelf.BookItems.Remove(App.Controller.AllBooks.find(item));
-                App.Controller.removeBook(item);
+                if (!App.Controller.TopLayerBookshelves.Bookshelves.Contains(Bookshelf.Bookshelf1))
+                    App.Controller.removeBook(item);
             }
 
             await Navigation.PopAsync();

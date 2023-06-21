@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -94,6 +95,15 @@ namespace bookApp
 
         }
 
+        async void OnRequestClicked(object sender, EventArgs e)
+        {
+
+            HttpClient serverReq = new HttpClient();
+
+            await serverReq.GetAsync("http://192.168.1.200:8080/process");
+
+        }
+
         /// <summary>
         /// Search for what is written in the search bar
         /// </summary>
@@ -178,7 +188,14 @@ namespace bookApp
             using (var newStream = File.OpenWrite(newFile))
                 await stream.CopyToAsync(newStream);
 
+            byte[] imageBytes;
+            var stream2 = await photo.OpenReadAsync();
+            MemoryStream ms = new MemoryStream();
+            stream2.CopyTo(ms);
+            imageBytes = ms.ToArray();
+            Console.WriteLine(ms.ToString());
 
+            HttpClient httpClient = new HttpClient();
 
             PhotoPath = newFile;
         }

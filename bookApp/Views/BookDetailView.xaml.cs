@@ -15,6 +15,8 @@ namespace bookApp.Views
 
         Xamarin.Forms.Button addBook;
 
+        Book ThisBook { get; set; }
+
         searchs book { get; set; }
 
         bool local_book;
@@ -30,11 +32,13 @@ namespace bookApp.Views
         public BookDetailView(Book book)
         {
             InitializeComponent();
+            ThisBook = book;
             Title1.Text = book.Title;
             Author.Text = book.Author.ToString();
             cover.Source = book.cover_url;
             Editions = new ObservableCollection<edition_transform>();
             local_book = true;
+            subjectList.ItemsSource = book.Genre;
         }
 
         /// <summary>
@@ -124,6 +128,12 @@ namespace bookApp.Views
 
             await Navigation.PopAsync();
 
+        }
+
+        async void OnValueChanged(object sender, EventArgs e)
+        {
+            App.Controller.addValoration(ThisBook.Isbn,((Slider)sender).Value,"");
+            val.Text = ((Slider)sender).Value.ToString();
         }
 
         /// <summary>

@@ -9,6 +9,8 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -19,7 +21,20 @@
         <Image x:Name="cover" Grid.RowSpan="4" HorizontalOptions="Center" VerticalOptions="Center"/>
         <Label x:Name="Title1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" FontSize="Large"/>
         <Label x:Name="Author" Text="Author of the book" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
-        <ListView x:Name="editionList" HasUnevenRows="False" RowHeight="60" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnEditionTapped">
+        <Label x:Name="val" Text="0" Grid.Row="4" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2" FontSize="20"/>
+        <Slider x:Name="Valoration" VerticalOptions="Start" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="10" ValueChanged="OnValueChanged" MaximumTrackColor="Gray" MinimumTrackColor="LightSkyBlue"/>
+        <ListView x:Name="subjectList" HasUnevenRows="False" Grid.Row="6" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <Label Text="{Binding .}"/>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView x:Name="editionList" HasUnevenRows="False" RowHeight="60" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnEditionTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

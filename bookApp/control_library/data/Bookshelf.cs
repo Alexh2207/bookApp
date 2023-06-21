@@ -16,7 +16,7 @@ namespace control_library.data
         public string Concept { get; set; }
 
         //CAMBIAR A LISTA DE IDs
-        public CollectionBookshelves Shelves { get; set; }
+        public List<double> Shelves { get; set; }
 
         public Bookshelf(string name, string concept)
             :base()
@@ -27,7 +27,7 @@ namespace control_library.data
             BookshelfID = total+DateTime.Now.Millisecond;
             ShelfName = name;
             Concept = concept;
-            Shelves = new CollectionBookshelves();
+            Shelves = new List<double>();
         }
 
         public Bookshelf(string name, string concept, Book[] books1)
@@ -39,7 +39,7 @@ namespace control_library.data
             BookshelfID = total + DateTime.Now.Millisecond;
             ShelfName = name;
             Concept = concept;
-            Shelves = new CollectionBookshelves();
+            Shelves = new List<double>();
         }
 
         public Bookshelf() : base() 
@@ -47,7 +47,7 @@ namespace control_library.data
             BookshelfID = 0.0;
             ShelfName = "";
             Concept = "";
-            Shelves = new CollectionBookshelves();
+            Shelves = new List<double>();
         }
 
         //LIMPIAR ESTO, MAL CÓDIGO
@@ -60,7 +60,7 @@ namespace control_library.data
         //AÑADIR SOLAMENTE LA ID
         public bool addShelf(Bookshelf bookshelf)
         {
-            Shelves.add(bookshelf);
+            Shelves.Add(bookshelf.BookshelfID);
             return true;
         }
 
@@ -71,7 +71,7 @@ namespace control_library.data
                    ShelfName == bookshelf.ShelfName &&
                    Concept == bookshelf.Concept &&
                    BookshelfID == bookshelf.BookshelfID &&
-                   EqualityComparer<CollectionBookshelves>.Default.Equals(Shelves, bookshelf.Shelves);
+                   EqualityComparer<List<double>>.Default.Equals(Shelves, bookshelf.Shelves);
         }
 
     }

@@ -122,7 +122,7 @@ namespace control_library
         /// <param name="name">Name of the bookshelf</param>
         /// <param name="concept">Concept of the Bookshelf</param>
         /// <param name="bookshelfID">ID of the Parent of the Bookshelf</param>
-        /// <returns>True if successful, False if failure</returns>
+        /// <returns>BookshelfID if successful, -1 if failure</returns>
         public double createSubBookshelf(string name, string concept, double bookshelfID)
         {
             Bookshelf bookshelf = new Bookshelf(name, concept);
@@ -131,10 +131,10 @@ namespace control_library
             {
                 //CHANGE ELEMENT TYPE TO ID
 
-                foreach(Bookshelf element in AllBookshelves.find(bookshelfID).Shelves.Bookshelves)
+                foreach(double element in AllBookshelves.find(bookshelfID).Shelves)
                 {
                     //SEARCH IN ALL BOOKSHELVES FOR NAME
-                    if (element.ShelfName.Equals(name))
+                    if (AllBookshelves.find(element).ShelfName.Equals(name))
                     {
                         Console.WriteLine("nombre ya existente en la estantería padre");
                         return -1;
@@ -380,17 +380,15 @@ namespace control_library
 
             //NORMALIZACIÓN DE DATOS, BORRAR UNA VEZ DE ALL BOOKSHELVES Y TODAS EN LAS QUE TENGA ID
 
-            foreach(Bookshelf booksh in AllBookshelves.find(ID).Shelves.Bookshelves)
+            foreach(double bookshID in AllBookshelves.find(ID).Shelves)
             {
-                AllBookshelves.remove(booksh.BookshelfID);
+                AllBookshelves.remove(bookshID);
             }
 
             foreach(Bookshelf bookshelf in AllBookshelves.Bookshelves)
             {
-                bookshelf.Shelves.remove(ID);
+                bookshelf.Shelves.Remove(ID);
             }
-
-            AllBooks.Shelves.remove(ID);
 
             foreach(Book book in AllBooks.Books)
             {
@@ -512,6 +510,22 @@ namespace control_library
         {
             return JsonSerializer.Serialize(this);
 
+        }
+
+        public List<Bookshelf> GetBookshelves(List<double> IDList) 
+        { 
+            List<Bookshelf> bookshelves= new List<Bookshelf>();
+            foreach (double ID in IDList)
+            {
+                foreach (Bookshelf element in AllBookshelves.Bookshelves)
+                {
+                    if(element.BookshelfID == ID)
+                    {
+                        bookshelves.Add(element);
+                    }
+                }
+            }
+            return bookshelves;
         }
     }
 }

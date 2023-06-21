@@ -48,6 +48,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Text="Books:" FontAttributes="Bold"/>
+            <ImageButton Source="plus_icon.png" Clicked="OnAddBookClicked" Grid.Column="2" BackgroundColor="White" HorizontalOptions="End"/>
             <ImageButton Source="trash.jpg" Clicked="OnDeleteBookClicked" Grid.Column="3" BackgroundColor="White" HorizontalOptions="End"/>
         </Grid>
         <ListView x:Name="BookList"

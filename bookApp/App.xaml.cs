@@ -39,7 +39,10 @@ namespace bookApp
             try
             {
                 controller = JsonSerializer.Deserialize<DataController>(File.ReadAllText(Path.Combine(FileSystem.AppDataDirectory, "data.json")));
-            }catch(Exception ex)
+                controller.AllBooks = controller.AllBookshelves.find(controller.AllBooks.BookshelfID);
+                controller.Wishlist = controller.AllBookshelves.find(controller.Wishlist.BookshelfID);
+            }
+            catch(Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
                 controller = new DataController(1);

@@ -1,6 +1,7 @@
 ﻿using control_library.collections;
 using control_library.data;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace bookApp.Views
     public partial class BookshelfView : ContentPage
     {
         public ObservableCollection<Book> BookItems { get; set; }
+        public List<double> ShelfIDs { get; set; }
         public ObservableCollection<Bookshelf> ShelfItems { get; set; }
 
         public Bookshelf Bookshelf1 { get; set; }
@@ -31,7 +33,8 @@ namespace bookApp.Views
             Bookshelf Shelf = App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID);
             BookItems = new ObservableCollection<Book>(Shelf.Books);
             BookList.ItemsSource =  BookItems;
-            ShelfItems = new ObservableCollection<Bookshelf>(App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Shelves.Bookshelves);
+            ShelfIDs = new List<double>(App.Controller.AllBookshelves.find(Bookshelf1.BookshelfID).Shelves);
+            ShelfItems = new ObservableCollection<Bookshelf>(App.Controller.GetBookshelves(ShelfIDs));
             BookshelvesList.ItemsSource = ShelfItems;
         }
 
@@ -68,6 +71,13 @@ namespace bookApp.Views
         {
 
             Navigation.PushAsync(new DeleteBookPage(this));
+
+        }
+
+        void OnAddBookClicked(object sender, EventArgs e)
+        {
+
+            Navigation.PushAsync(new AddBookPage(this));
 
         }
 
