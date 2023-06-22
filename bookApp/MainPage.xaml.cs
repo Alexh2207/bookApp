@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -196,6 +197,18 @@ namespace bookApp
             Console.WriteLine(ms.ToString());
 
             HttpClient httpClient = new HttpClient();
+
+            var ufile = new ByteArrayContent(imageBytes);
+
+            ufile.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
+
+            var multipartFormContent = new MultipartFormDataContent();
+
+            multipartFormContent.Add(ufile, name: "ufile", fileName:"ufile.jpg");
+
+            var response = await httpClient.PostAsync("http://192.168.1.200:8080/upload", multipartFormContent);
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
 
             PhotoPath = newFile;
         }
