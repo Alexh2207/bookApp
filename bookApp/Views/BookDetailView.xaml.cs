@@ -3,7 +3,12 @@ using control_library.data_retrieval;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -106,6 +111,10 @@ namespace bookApp.Views
 
                 editionList.ItemsSource = Editions;
             }
+            else
+            {
+                GetRecommend();
+            }
         }
 
         /// <summary>
@@ -123,6 +132,7 @@ namespace bookApp.Views
             App.Controller.addBook(editions.edition_key.ElementAt(0).isbn_13.First(),book.author_name,book.title, editions.subjects, book.cover_edition_key);
             App.Controller.addBookToBookshelf(editions.edition_key.ElementAt(0).isbn_13.First(), App.Controller.AllBooks.BookshelfID);
 
+            ThisBook = App.Controller.AllBooks.find(editions.edition_key.ElementAt(0).isbn_13.First());
 
             Console.WriteLine("Book");
 
@@ -156,6 +166,22 @@ namespace bookApp.Views
 
             await Navigation.PopAsync();
         }
+
+        async void GetRecommend()
+        {
+            await Task.Run(async () =>
+            {
+                HttpClient client = new HttpClient();
+                string url = "http://192.168.1.200:8080/recommend?isbn=" + ThisBook.Isbn;
+                Stream resp = await client.GetStreamAsync(url);
+                var recommends = JsonSerializer.DeserializeAsync<recommendations>(resp);
+                Console.WriteLine((new StreamReader(resp)).ReadToEnd());
+            });
+        }
+
+        public record class recommendations(List<simple_book> Simple_Books);
+
+        public record class simple_book(string ID, string Title, string cover_url);
 
     }
 }
