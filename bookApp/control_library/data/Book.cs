@@ -14,6 +14,8 @@ namespace control_library.data
         /// </summary>
         public string Isbn { get; set; }
 
+        public string OLID { get; set; }
+
         /// <summary>
         /// Collection of Authors of the book
         /// </summary>
@@ -42,6 +44,7 @@ namespace control_library.data
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
             cover_url= "Bookdefault.jpg";
+            OLID = "";
         }
 
         public Book(string isbn, CollectionAuthors author, string title)
@@ -57,6 +60,7 @@ namespace control_library.data
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
             cover_url = "Bookdefault.jpg";
+            OLID = "";
         }
 
         public Book(string isbn, CollectionAuthors author, string title, List<string> genre)
@@ -72,6 +76,7 @@ namespace control_library.data
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
             cover_url = "Bookdefault.jpg";
+            OLID = "";
         }
 
         public Book(string isbn, CollectionAuthors author, string title, List<string> genre, string cover)
@@ -87,6 +92,7 @@ namespace control_library.data
             RelevantBooks = new CollectionBooks();
             EndDate = new DateTime();
             cover_url = cover;
+            OLID = "";
         }
 
         public bool addToShelf(double shelfID)

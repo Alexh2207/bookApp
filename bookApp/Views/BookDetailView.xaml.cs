@@ -29,6 +29,7 @@ namespace bookApp.Views
         searched_book editionCollect { get; set; }
 
         ObservableCollection <edition_transform> Editions { get; set; }
+        ObservableCollection<simple_book> recommended { get; set; }
 
         /// <summary>
         /// When arriving from a book already stored in the app you are not able to modify it
@@ -59,7 +60,7 @@ namespace bookApp.Views
             addBook = new Xamarin.Forms.Button();
             addBook.Text = "Add";
             addBook.Clicked += new EventHandler(OnAddClicked);
-            grid.Children.Add(addBook,0,1,4,5);
+            grid.Children.Add(addBook,1,2,3,4);
             this.book = book;
             Editions = new ObservableCollection<edition_transform>();
             local_book = false;
@@ -109,11 +110,17 @@ namespace bookApp.Views
 
                 }
 
+                ThisBook = new Book(Editions.ElementAt(0).isbn_13,book.author_name, book.title, editionCollect.subjects, book.cover_edition_key);
+
                 editionList.ItemsSource = Editions;
+
+                recommended = new ObservableCollection<simple_book>((await GetRecommend()).Simple_Books);
+                recommendList.ItemsSource = recommended;
             }
             else
             {
-                GetRecommend();
+                recommended = new ObservableCollection<simple_book>((await GetRecommend()).Simple_Books);
+                recommendList.ItemsSource = recommended;
             }
         }
 
@@ -167,8 +174,20 @@ namespace bookApp.Views
             await Navigation.PopAsync();
         }
 
-        async void GetRecommend()
+        async void OnRecommendTapped(object sender, EventArgs e)
         {
+            OpenLibraryClient client = new OpenLibraryClient();
+
+            simple_book selectedBook = (simple_book)((Xamarin.Forms.ListView)sender).SelectedItem;
+
+            searchs work = (await client.GetSearch(selectedBook.ID)).ElementAt(0);
+
+            await Navigation.PushAsync(new BookDetailView(work));
+        }
+
+        async Task<recommendations> GetRecommend()
+        {
+            recommendations recomList = new recommendations(new List<simple_book>());
             await Task.Run(async () =>
             {
                 HttpClient client = new HttpClient();
@@ -176,7 +195,10 @@ namespace bookApp.Views
                 Stream resp = await client.GetStreamAsync(url);
                 var recommends = JsonSerializer.DeserializeAsync<recommendations>(resp);
                 Console.WriteLine((new StreamReader(resp)).ReadToEnd());
+                recomList = recommends.Result;
+                Console.WriteLine(recomList.Simple_Books.ElementAt(0).ID);
             });
+            return recomList;
         }
 
         public record class recommendations(List<simple_book> Simple_Books);

@@ -120,6 +120,7 @@ namespace control_library.data_retrieval
 
     }
 
+
     public record class search(int numFound, List<search_book> docs, String q);
 
     /// <summary>

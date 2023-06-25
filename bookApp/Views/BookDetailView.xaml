@@ -37,7 +37,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView x:Name="editionList" HasUnevenRows="False" RowHeight="60" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnEditionTapped">
+        <ListView x:Name="editionList" HasUnevenRows="False" RowHeight="60" Grid.Row="8" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnEditionTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -52,6 +52,25 @@
                                     <Label Text="{Binding authors}"
                                                TextColor="Silver"
                                                FontSize="Small" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView x:Name="recommendList" HasUnevenRows="False" RowHeight="60" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Start" ItemTapped="OnRecommendTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal">
+
+                                <Image Source="{Binding cover_url}"/>
+
+                                <StackLayout Spacing="3" Padding="6" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding Title}"
+                                               FontSize="Medium" />
                                 </StackLayout>
                             </StackLayout>
                         </ViewCell.View>
