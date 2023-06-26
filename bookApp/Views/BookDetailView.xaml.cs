@@ -106,6 +106,27 @@ namespace bookApp.Views
                         }
 
                         Editions.Add(new edition_transform(title, element.number_of_pages, element.isbn_13.ElementAt(0), "https://covers.openlibrary.org/b/id/" + covers.ElementAt(0) + "-M.jpg", book.author_name));
+                    }else if(element.isbn_10 != null && element.isbn_10.ElementAt(0) != null)
+                    {
+                        if (element.title == null)
+                        {
+                            title = book.title;
+                        }
+                        else
+                        {
+                            title = element.title;
+                        }
+
+                        if (element.covers == null)
+                        {
+                            covers.Add(0);
+                        }
+                        else
+                        {
+                            covers = element.covers;
+                        }
+
+                        Editions.Add(new edition_transform(title, element.number_of_pages, element.isbn_10.ElementAt(0), "https://covers.openlibrary.org/b/id/" + covers.ElementAt(0) + "-M.jpg", book.author_name));
                     }
 
                 }
@@ -136,10 +157,8 @@ namespace bookApp.Views
 
             searched_book editions = await openLibraryClient.GetWorkData(book);
 
-            App.Controller.addBook(editions.edition_key.ElementAt(0).isbn_13.First(),book.author_name,book.title, editions.subjects, book.cover_edition_key);
-            App.Controller.addBookToBookshelf(editions.edition_key.ElementAt(0).isbn_13.First(), App.Controller.AllBooks.BookshelfID);
-
-            ThisBook = App.Controller.AllBooks.find(editions.edition_key.ElementAt(0).isbn_13.First());
+            App.Controller.addBook(ThisBook.Isbn,ThisBook.Author,ThisBook.Title, editions.subjects, ThisBook.cover_url);
+            App.Controller.addBookToBookshelf(ThisBook.Isbn, App.Controller.AllBooks.BookshelfID);
 
             Console.WriteLine("Book");
 
@@ -203,7 +222,7 @@ namespace bookApp.Views
 
         public record class recommendations(List<simple_book> Simple_Books);
 
-        public record class simple_book(string ID, string Title, string cover_url);
+        public record class simple_book(string ID, string Title, string coverl_url);
 
     }
 }

@@ -17,6 +17,7 @@ namespace control_library.data_retrieval
         public OpenLibraryClient() 
         {
             client = new HttpClient();
+            client.Timeout = TimeSpan.FromMinutes(10);
         }
 
         public async Task<List<searchs>> GetSearch(string terms)
@@ -108,6 +109,8 @@ namespace control_library.data_retrieval
 
             url = "https://openlibrary.org/" + book.key + ".json";
 
+            Console.WriteLine(url);
+
             json = await client.GetStreamAsync(url);
             var search_key = JsonSerializer.DeserializeAsync<work>(json);
 
@@ -169,7 +172,7 @@ namespace control_library.data_retrieval
     /// <param name="isbn_13"></param>
     /// <param name="covers"></param>
     /// <param name="authors"></param>
-    public record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<int> covers, List<authors_keys> authors);
+    public record class edition_book(String title, int number_of_pages, List<String> isbn_13, List<String> isbn_10, List<int> covers, List<authors_keys> authors);
 
     /// <summary>
     /// Translation of data to be understood by mobile application. Please clean.
